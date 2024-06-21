@@ -4,14 +4,6 @@ import cards from "../../data/cards";
 import Matches from "../Matches/Matches";
 import Timer from "../Timer/Timer";
 import Message from "../Message/Message";
-import twoOfClubs from "../../assets/2_of_clubs.png";
-import twoOfHearts from "../../assets/2_of_hearts.png";
-import threeOfClubs from "../../assets/3_of_clubs.png";
-import threeOfDiamonds from "../../assets/3_of_diamonds.png";
-import fourOfClubs from "../../assets/4_of_clubs.png";
-import fourOfDiamonds from "../../assets/4_of_diamonds.png";
-import fiveOfClubs from "../../assets/5_of_clubs.png";
-import jackOfSpades from "../../assets/jack_of_spades.png";
 
 export default function () {
   const [cardData, setCardData] = useState(cards);
@@ -76,6 +68,9 @@ export default function () {
   const flipCard = (position) => {
     if (!gameOn) {
       setGameOn(true);
+    }
+    if (cardData[position].flipped || flippedCards.length === 2) {
+      return;
     }
     const flippedCard = cardData[position];
     const newCardData = [...cardData];
