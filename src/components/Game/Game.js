@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CardGrid from "../CardGrid/CardGrid";
 import cards from "../../data/cards";
 import Matches from "../Matches/Matches";
+import Timer from "../Timer/Timer";
 import twoOfClubs from "../../assets/2_of_clubs.png";
 import twoOfHearts from "../../assets/2_of_hearts.png";
 import threeOfClubs from "../../assets/3_of_clubs.png";
@@ -15,10 +16,11 @@ export default function () {
   const [cardData, setCardData] = useState(cards);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matches, setMatches] = useState(0);
+  const [time, setTime] = useState({ minutes: 2, seconds: `00` });
+  const [gameOn, setGameOn] = useState(false);
+  const possibleMatches = 1;
 
   useEffect(() => {
-    console.log(cardData);
-    console.log(flippedCards);
     const timeOutId = setTimeout(() => {
       if (flippedCards.length === 2) {
         if (flippedCards[0].value === flippedCards[1].value) {
@@ -45,17 +47,41 @@ export default function () {
     return () => clearTimeout(timeOutId);
   }, [flippedCards]);
 
+  useEffect(() => {
+    console.log(time.minutes, time.seconds);
+    if (gameOn) {
+      const timeOutId = setTimeout(() => {
+        if (time.minutes === 0 && time.seconds === 0) {
+          setGameOn(false);
+        } else if (time.seconds < 10) {
+          setTime({ minutes: time.minutes - 1, seconds: 59 });
+        } else {
+          setTime({
+            minutes: time.minutes,
+            seconds: time.seconds - 1,
+          });
+        }
+      }, 1000);
+      return () => clearTimeout(timeOutId);
+    }
+  }, [time, gameOn]);
+
   const flipCard = (position) => {
+    if (!gameOn) {
+      setGameOn(true);
+    }
     const flippedCard = cardData[position];
     const newCardData = [...cardData];
     newCardData[position].flipped = !newCardData[position].flipped;
     setCardData(newCardData);
     setFlippedCards([...flippedCards, flippedCard]);
   };
+
   return (
     <div id="game">
       <CardGrid cardPosition={cardData} flipCard={flipCard} />
       <Matches matches={matches} />
+      <Timer minutes={time.minutes} seconds={time.seconds} />
     </div>
   );
 }
