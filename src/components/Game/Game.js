@@ -3,6 +3,7 @@ import CardGrid from "../CardGrid/CardGrid";
 import cards from "../../data/cards";
 import Matches from "../Matches/Matches";
 import Timer from "../Timer/Timer";
+import Message from "../Message/Message";
 import twoOfClubs from "../../assets/2_of_clubs.png";
 import twoOfHearts from "../../assets/2_of_hearts.png";
 import threeOfClubs from "../../assets/3_of_clubs.png";
@@ -16,7 +17,7 @@ export default function () {
   const [cardData, setCardData] = useState(cards);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matches, setMatches] = useState(0);
-  const [time, setTime] = useState({ minutes: 2, seconds: `00` });
+  const [time, setTime] = useState({ minutes: 2, seconds: "00" });
   const [gameOn, setGameOn] = useState(false);
   const possibleMatches = 1;
 
@@ -48,20 +49,26 @@ export default function () {
   }, [flippedCards]);
 
   useEffect(() => {
-    console.log(time.minutes, time.seconds);
     if (gameOn) {
       const timeOutId = setTimeout(() => {
-        if (time.minutes === 0 && time.seconds === 0) {
+        if (
+          (time.minutes === 0 && time.seconds === "00") ||
+          matches === possibleMatches
+        ) {
+          console.log("Game Over");
           setGameOn(false);
-        } else if (time.seconds < 10) {
+        } else if (time.seconds === "00") {
           setTime({ minutes: time.minutes - 1, seconds: 59 });
         } else {
           setTime({
             minutes: time.minutes,
-            seconds: time.seconds - 1,
+            seconds:
+              time.seconds - 1 < 10
+                ? `0${time.seconds - 1}`
+                : time.seconds - 1 || "00",
           });
         }
-      }, 1000);
+      }, 100);
       return () => clearTimeout(timeOutId);
     }
   }, [time, gameOn]);
@@ -80,8 +87,11 @@ export default function () {
   return (
     <div id="game">
       <CardGrid cardPosition={cardData} flipCard={flipCard} />
-      <Matches matches={matches} />
+      <Matches matches={matches} totalMatches={possibleMatches} />
       <Timer minutes={time.minutes} seconds={time.seconds} />
+      {!gameOn && time.minutes < 2 ? (
+        <Message matches={matches} totalMatches={possibleMatches} />
+      ) : null}
     </div>
   );
 }
