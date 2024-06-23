@@ -1,44 +1,57 @@
 import React from "react";
 import CardBack from "../CardBack/CardBack";
 import Card from "../Card/Card";
+import cards from "../../data/cards";
 
-
-export default function CardGrid({ cardPosition, flipCard }) {
+export default function CardGrid({ cardData, flipCard, dealtCards }) {
   return (
     <div id="card-grid">
-      <div className="card-row"></div>
-      {cardPosition[0].flipped ? (
-        <Card src={twoOfHearts} />
+      {dealtCards.map((array, index) => {
+        return (
+          <div className="card-row" key={index}>
+            {array.map((cardIndex) => {
+              return cardData[cardIndex].flipped ? (
+                <Card src={cards[cardIndex].path} key={cardIndex} />
+              ) : (
+                <CardBack onClick={() => flipCard(cardIndex)} key={cardIndex} />
+              );
+            })}
+          </div>
+        );
+      })}
+      {/* <div className="card-row"></div>
+      {cardData[0].flipped ? (
+        <Card src={cards[0].path} />
       ) : (
         <CardBack onClick={() => flipCard(0)} />
       )}
-      {cardPosition[1].flipped ? (
-        <Card src={twoOfClubs} />
+      {cardData[1].flipped ? (
+        <Card src={cards[1].path} />
       ) : (
         <CardBack onClick={() => flipCard(1)} />
       )}
-      {cardPosition[2].flipped ? (
-        <Card src={threeOfClubs} />
+      {cardData[2].flipped ? (
+        <Card src={cards[2].path} />
       ) : (
         <CardBack onClick={() => flipCard(2)} />
       )}
       <div className="card-row">
-        {cardPosition[4].flipped ? (
-          <Card src={fourOfClubs} />
+        {cardData[4].flipped ? (
+          <Card src={cards[4].path} />
         ) : (
           <CardBack onClick={() => flipCard(4)} />
         )}
-        {cardPosition[7].flipped ? (
-          <Card src={jackOfSpades} />
+        {cardData[7].flipped ? (
+          <Card src={cards[7].path} />
         ) : (
           <CardBack onClick={() => flipCard(7)} />
         )}
-        {cardPosition[6].flipped ? (
-          <Card src={fiveOfClubs} />
+        {cardData[6].flipped ? (
+          <Card src={cards[6].path} />
         ) : (
           <CardBack onClick={() => flipCard(6)} />
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

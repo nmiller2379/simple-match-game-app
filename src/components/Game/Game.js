@@ -4,6 +4,7 @@ import cards from "../../data/cards";
 import Matches from "../Matches/Matches";
 import Timer from "../Timer/Timer";
 import Message from "../Message/Message";
+import randomNums from "../../utils/randomNums";
 
 export default function () {
   const [cardData, setCardData] = useState(cards);
@@ -11,6 +12,7 @@ export default function () {
   const [matches, setMatches] = useState(0);
   const [time, setTime] = useState({ minutes: 2, seconds: "00" });
   const [gameOn, setGameOn] = useState(false);
+  const [dealtCards, setDealtCards] = useState(randomNums());
   const possibleMatches = 1;
 
   useEffect(() => {
@@ -81,7 +83,11 @@ export default function () {
 
   return (
     <div id="game">
-      <CardGrid cardPosition={cardData} flipCard={flipCard} />
+      <CardGrid
+        cardData={cardData}
+        dealtCards={dealtCards}
+        flipCard={flipCard}
+      />
       <Matches matches={matches} totalMatches={possibleMatches} />
       <Timer minutes={time.minutes} seconds={time.seconds} />
       {!gameOn && time.minutes < 2 ? (
