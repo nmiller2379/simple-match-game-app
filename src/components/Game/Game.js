@@ -5,15 +5,17 @@ import Matches from "../Matches/Matches";
 import Timer from "../Timer/Timer";
 import Message from "../Message/Message";
 import randomNums from "../../utils/randomNums";
+import totalMatches from "../../utils/totalMatches";
 
 export default function () {
   const [cardData, setCardData] = useState(cards);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matches, setMatches] = useState(0);
-  const [time, setTime] = useState({ minutes: 2, seconds: "00" });
+  const [time, setTime] = useState({ minutes: 10, seconds: "00" });
   const [gameOn, setGameOn] = useState(false);
   const [dealtCards, setDealtCards] = useState(randomNums());
-  const possibleMatches = 1;
+  const dealtCardsArray = dealtCards.flat(1).map((card) => cardData[card]);
+  const possibleMatches = totalMatches(dealtCardsArray);
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -62,7 +64,7 @@ export default function () {
                 : time.seconds - 1 || "00",
           });
         }
-      }, 100);
+      }, 1000);
       return () => clearTimeout(timeOutId);
     }
   }, [time, gameOn]);

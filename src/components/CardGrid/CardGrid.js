@@ -19,39 +19,6 @@ export default function CardGrid({ cardData, flipCard, dealtCards }) {
           </div>
         );
       })}
-      {/* <div className="card-row"></div>
-      {cardData[0].flipped ? (
-        <Card src={cards[0].path} />
-      ) : (
-        <CardBack onClick={() => flipCard(0)} />
-      )}
-      {cardData[1].flipped ? (
-        <Card src={cards[1].path} />
-      ) : (
-        <CardBack onClick={() => flipCard(1)} />
-      )}
-      {cardData[2].flipped ? (
-        <Card src={cards[2].path} />
-      ) : (
-        <CardBack onClick={() => flipCard(2)} />
-      )}
-      <div className="card-row">
-        {cardData[4].flipped ? (
-          <Card src={cards[4].path} />
-        ) : (
-          <CardBack onClick={() => flipCard(4)} />
-        )}
-        {cardData[7].flipped ? (
-          <Card src={cards[7].path} />
-        ) : (
-          <CardBack onClick={() => flipCard(7)} />
-        )}
-        {cardData[6].flipped ? (
-          <Card src={cards[6].path} />
-        ) : (
-          <CardBack onClick={() => flipCard(6)} />
-        )}
-      </div> */}
     </div>
   );
 }
